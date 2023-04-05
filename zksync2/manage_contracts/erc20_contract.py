@@ -63,28 +63,30 @@ class ERC20Contract:
         return self.contract.functions.allowance(owner, sender).call(
             {
                 "chainId": self.module.chain_id,
-                "from": self.account.address,
             })
 
     def transfer(self, _to: str, _value: int):
         return self.contract.functions.transfer(_to, _value).call(
             {
                 "chainId": self.module.chain_id,
-                "from": self.account.address,
             })
 
     def balance_of(self, addr: HexStr):
         return self.contract.functions.balanceOf(addr).call(
             {
                 "chainId": self.module.chain_id,
-                "from": self.account.address
             })
 
     def decimals(self):
         return self.contract.functions.decimals().call(
             {
                 "chainId": self.module.chain_id,
-                "from": self.account.address
+            })
+
+    def name(self):
+        return self.contract.functions.name().call(
+            {
+                "chainId": self.module.chain_id,
             })
 
 
