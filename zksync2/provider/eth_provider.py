@@ -27,6 +27,7 @@ def check_base_cost(base_cost: int, value: int):
 class EthereumProvider:
     # GAS_LIMIT = 21000
     # DEFAULT_THRESHOLD = 2 ** 255
+    DEFAULT_GAS_PER_PUBDATA_BYTE = 800
     DEPOSIT_GAS_PER_PUBDATA_LIMIT = 50000
     RECOMMENDED_DEPOSIT_L2_GAS_LIMIT = 10000000
     L1_MESSENGER_ADDRESS = '0x0000000000000000000000000000000000008008'
@@ -164,7 +165,7 @@ class EthereumProvider:
                         l2_value: int = 0,
                         factory_deps: List[bytes] = None,
                         operator_tip: int = 0,
-                        gas_per_pubdata_byte: int = DEPOSIT_GAS_PER_PUBDATA_LIMIT,
+                        gas_per_pubdata_byte: int = DEFAULT_GAS_PER_PUBDATA_BYTE,
                         refund_recipient: HexStr = None,
                         gas_price: int = None,
                         gas_limit: int = RecommendedGasLimit.EXECUTE.value):
@@ -178,7 +179,7 @@ class EthereumProvider:
 
         base_cost = self.get_base_cost(gas_price=gas_price,
                                        gas_per_pubdata_byte=gas_per_pubdata_byte,
-                                       gas_limit=gas_limit)
+                                       gas_limit=l2_gas_limit)
         value = base_cost + operator_tip + l2_value
         check_base_cost(base_cost, value)
 
@@ -193,7 +194,7 @@ class EthereumProvider:
                                                                refund_recipient=refund_recipient,
                                                                gas_price=gas_price,
                                                                gas_limit=gas_limit,
-                                                               l1_value=l1_value)
+                                                               l1_value=value)
         # TODO: resolve issue with getting L2 tx_hash from logs
         # return self._zksync_web3.zksync.get_priority_op_response(tx_receipt, self.main_contract)
         return tx_receipt
