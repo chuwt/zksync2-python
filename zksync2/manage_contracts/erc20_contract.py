@@ -80,6 +80,13 @@ class ERC20Contract:
                 "from": self.account.address
             })
 
+    def decimals(self):
+        return self.contract.functions.decimals().call(
+            {
+                "chainId": self.module.chain_id,
+                "from": self.account.address
+            })
+
 
 class ERC20Encoder(BaseContractEncoder):
 
